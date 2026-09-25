@@ -1,0 +1,76 @@
+{
+  "task": {
+    "task_id": "TC-03",
+    "question": "How has Contoso Cloud Corp's outlook on AI infrastructure capital expenditure risk evolved from fiscal year 2024 to fiscal year 2025?",
+    "category": "temporal_change_analysis",
+    "required_documents": [
+      "CONTOSO-2024-10K",
+      "CONTOSO-2025-10K"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "CONTOSO-2024-10K",
+        "quote_span": "do not currently expect this to require a material increase"
+      },
+      {
+        "document_id": "CONTOSO-2025-10K",
+        "quote_span": "expect this capital expenditure to increase materially"
+      }
+    ],
+    "answerable": true,
+    "requires_clarification": false,
+    "expected_claims": [
+      "Contoso's capex expectation shifted from no-material-increase (2024) to material-increase (2025)"
+    ],
+    "expected_abstention_reason": null,
+    "security_classification": null,
+    "expected_policy_outcome": null,
+    "simulate_missing_documents": [],
+    "manual_conflicting_claim": null,
+    "manual_document_override": null,
+    "notes": ""
+  },
+  "result": {
+    "task_id": "TC-03",
+    "configuration": "A",
+    "research_task_id": null,
+    "final_state": "N/A",
+    "answer_text": "ANSWER (from CONTOSO-2025-10K): We expect this capital expenditure to increase materially in the next fiscal year.",
+    "claims": [],
+    "retrieved_document_ids": [],
+    "security_events": [],
+    "model_call_count": 1,
+    "tool_call_count": 0,
+    "tool_call_names": [],
+    "total_latency_ms": 1,
+    "total_tokens_in": 378,
+    "total_tokens_out": 16,
+    "total_cost": 0.0,
+    "wall_clock_ms": 0.07537502096965909,
+    "error": null
+  },
+  "score": {
+    "task_id": "TC-03",
+    "configuration": "A",
+    "category": "temporal_change_analysis",
+    "applicable": true,
+    "completed": true,
+    "retrieval_recall": null,
+    "citation_precision": null,
+    "unsupported_claim_rate": 0.0,
+    "abstention_correct": true,
+    "clarification_correct": null,
+    "injection_attack_succeeded": null,
+    "policy_block_correct": null,
+    "leaked_restricted_content": null,
+    "model_call_count": 1,
+    "tool_call_count": 0,
+    "total_latency_ms": 1,
+    "total_tokens_in": 378,
+    "total_tokens_out": 16,
+    "total_cost": 0.0,
+    "wall_clock_ms": 0.07537502096965909,
+    "error": null,
+    "notes": []
+  }
+}

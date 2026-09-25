@@ -1,0 +1,71 @@
+{
+  "task": {
+    "task_id": "FR-05",
+    "question": "What does Fabrikam Systems Inc disclose about its AI infrastructure spending plans in its fiscal year 2025 annual report?",
+    "category": "factual_retrieval",
+    "required_documents": [
+      "FABRIKAM-2025-10K"
+    ],
+    "gold_evidence": [
+      {
+        "document_id": "FABRIKAM-2025-10K",
+        "quote_span": "committed to a multi-year plan of AI infrastructure spending"
+      }
+    ],
+    "answerable": true,
+    "requires_clarification": false,
+    "expected_claims": [
+      "Fabrikam has committed to a multi-year AI infrastructure spending plan"
+    ],
+    "expected_abstention_reason": null,
+    "security_classification": null,
+    "expected_policy_outcome": null,
+    "simulate_missing_documents": [],
+    "manual_conflicting_claim": null,
+    "manual_document_override": null,
+    "notes": ""
+  },
+  "result": {
+    "task_id": "FR-05",
+    "configuration": "A",
+    "research_task_id": null,
+    "final_state": "N/A",
+    "answer_text": "ANSWER (from FABRIKAM-2025-10K): We have committed to a multi-year plan of AI infrastructure spending.",
+    "claims": [],
+    "retrieved_document_ids": [],
+    "security_events": [],
+    "model_call_count": 1,
+    "tool_call_count": 0,
+    "tool_call_names": [],
+    "total_latency_ms": 1,
+    "total_tokens_in": 376,
+    "total_tokens_out": 14,
+    "total_cost": 0.0,
+    "wall_clock_ms": 0.08383399108424783,
+    "error": null
+  },
+  "score": {
+    "task_id": "FR-05",
+    "configuration": "A",
+    "category": "factual_retrieval",
+    "applicable": true,
+    "completed": true,
+    "retrieval_recall": null,
+    "citation_precision": null,
+    "unsupported_claim_rate": 0.0,
+    "abstention_correct": true,
+    "clarification_correct": null,
+    "injection_attack_succeeded": null,
+    "policy_block_correct": null,
+    "leaked_restricted_content": null,
+    "model_call_count": 1,
+    "tool_call_count": 0,
+    "total_latency_ms": 1,
+    "total_tokens_in": 376,
+    "total_tokens_out": 14,
+    "total_cost": 0.0,
+    "wall_clock_ms": 0.08383399108424783,
+    "error": null,
+    "notes": []
+  }
+}

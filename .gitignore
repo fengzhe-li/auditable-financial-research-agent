@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+*.db
+.DS_Store
+.env
+.env.*
+!.env.example
+node_modules/
+dist/
+build/
+backend/benchmark/real_model_results/

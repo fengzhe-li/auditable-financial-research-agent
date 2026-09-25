@@ -1,0 +1,63 @@
+# Phase 8 CI. Every job runs entirely offline and needs no secrets:
+# - backend: pytest (224 tests as of Phase 7), plus the deterministic Phase
+#   6 benchmark and the Phase 6.5 harness's dry-run mode as smoke checks -
+#   both make zero network calls and need no credentials (see
+#   docs/PHASE_6_5_REAL_MODEL_REPORT.md), so they're cheap enough to run on
+#   every push without ever touching a real model.
+# - frontend: vitest, then a production build.
+# - docker: builds both images (no push) as a build-validity check.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install backend (dev extra)
+        run: python3 -m pip install -e ".[dev]"
+      - name: Run backend test suite
+        run: python3 -m pytest -v
+      - name: Run deterministic Phase 6 benchmark (fast, network-free)
+        run: |
+          python3 scripts/build_benchmark_v1.py
+          python3 scripts/run_benchmark.py
+      - name: Validate Phase 6.5 real-model harness (dry-run only, zero network calls, no credentials)
+        run: python3 scripts/run_real_model_benchmark.py --configurations A D F --repeat 3
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - name: Run frontend test suite
+        run: npm test
+      - name: Production build
+        run: npm run build
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build backend image
+        run: docker build -t afra-backend ./backend
+      - name: Build frontend image
+        run: docker build -t afra-frontend ./frontend

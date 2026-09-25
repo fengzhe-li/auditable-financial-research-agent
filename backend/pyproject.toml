@@ -1,0 +1,30 @@
+[project]
+name = "afra"
+version = "0.1.0"
+description = "Auditable Financial Research Agent - Phase 1 vertical slice (domain model, state machine, one real tool, one deterministic validator, publication gate). No external runtime dependencies."
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+# fastapi/httpx are here (not only under `api`) because Phase 7's API
+# layer (afra.api.app) has real tests (tests/test_api.py) that need to
+# import and exercise it - see that module's docstring. uvicorn is not a
+# test dependency (no test starts a live server), only `api` needs it.
+dev = ["pytest>=8", "fastapi>=0.115", "httpx>=0.27"]
+# Installed to actually serve the Phase 7 read/review API
+# (backend/scripts/run_api.py). Not required by `pip install -e .` alone,
+# and the core `afra` package (everything outside afra.api) still has zero
+# runtime dependencies.
+api = ["fastapi>=0.115", "uvicorn[standard]>=0.30"]
+# Only needed to actually execute a live Phase 6.5 real-model run
+# (backend/scripts/run_real_model_benchmark.py --live). Not installed by
+# `pip install -e .` or `.[dev]`, and never imported by any test or the
+# default (dry-run) harness path - see
+# docs/PHASE_6_5_REAL_MODEL_REPORT.md and afra/providers/real_model.py.
+# Gemini (google-genai), migrated from an earlier Anthropic adapter - see
+# docs/ROADMAP.md's Phase 6.5 provider-migration deviation entry.
+real-model = ["google-genai>=1.0"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

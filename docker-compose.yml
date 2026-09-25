@@ -1,0 +1,45 @@
+# Phase 8: one-command local startup. Two services, no other
+# infrastructure - the running system is still exactly what Phases 1-7
+# built (a Python API backed by one SQLite file, a static frontend build) -
+# see docs/ROADMAP.md's Phase 8 entry for why PostgreSQL/Redis/Qdrant were
+# not introduced here.
+#
+#   docker compose up --build
+#
+# First run seeds demo data automatically (backend/docker/entrypoint.sh).
+# To reset to a fresh demo dataset: `docker compose down -v` (removes the
+# named volume) then `docker compose up --build` again.
+
+services:
+  backend:
+    build:
+      context: ./backend
+    environment:
+      AFRA_DB_PATH: /data/afra_demo.db
+      AFRA_API_HOST: 0.0.0.0
+      AFRA_API_PORT: "8000"
+    volumes:
+      - afra_demo_db:/data
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://127.0.0.1:8000/api/health', timeout=2)"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  afra_demo_db:
+    # Named volume, not a bind mount - keeps the demo database out of the
+    # repository working tree (backend/afra_demo.db, used for non-Docker
+    # local runs, is separate and gitignored via *.db).
